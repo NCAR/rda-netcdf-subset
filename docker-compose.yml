@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  netcdf_subset:
+    build: . 
+    ports:
+      - "8888:8888"
+    image: netcdf_subset
+    volumes:
+      - /gpfs/csfs1/collections/rda/data:/gpfs/csfs1/collections/rda/data
+      - /gpfs/csfs1/collections/rda/transfer:/gpfs/csfs1/collections/rda/transfer
+      - /gpfs/csfs1/collections/rda/work:/gpfs/csfs1/collections/rda/work
+      - /gpfs/u/home/rdadata/:/gpfs/u/home/rdadata/
+      - .:/data/work
+    env_file:
+      - "compose.env"
+
