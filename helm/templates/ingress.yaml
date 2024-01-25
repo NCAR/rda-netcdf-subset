@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.helm.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    group: {{ .Values.helm.group }}
+  annotations:
+    cert-manager.io/cluster-issuer: "incommon"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - {{ .Values.helm.tls.fqdn }}
+      secretName: {{ .Values.helm.tls.secretName }}
+  rules:
+  - host: {{ .Values.helm.tls.fqdn }}
+    http:
+      paths:
+      - path: {{ .Values.helm.path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.helm.name }}
+            port:
+              number: {{ .Values.helm.container.port }}

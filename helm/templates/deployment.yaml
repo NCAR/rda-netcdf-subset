@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.helm.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.helm.name }}
+    group: {{ .Values.helm.group }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.helm.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.helm.name }}
+    spec:
+      containers:
+      - name: {{ .Values.helm.name }}
+        image: {{ .Values.helm.container.image }}
+        resources:
+          limits:
+            memory: {{ .Values.helm.container.memory }}
+            cpu: {{ .Values.helm.container.cpu }}
+        ports:
+        - containerPort: {{ .Values.helm.container.port }}
