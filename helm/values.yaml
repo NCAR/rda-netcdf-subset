@@ -1,0 +1,19 @@
+webapp:
+  name: netcdf_subset
+  group: rda
+  path: / 
+  autoscale:
+    minReplicaCount: 1 #Minimum number of replicas to run for the deployment
+    maxReplicaCount: 3 #Maximum number of replicas to run for the deployment
+    cpuAverageUtilization: 3 # Average CPU load to maintain across all replicas
+  tls:
+    fqdn: subset.k8s.ucar.edu #FQDN
+    #The TLS secretName should be unique to the FQDN as it is used to deploy a TLS certificate for that specific FQDN
+    #In the example below replace #HOST with the application name for a unique incommon issued certificate
+    secretName: incommon-cert-#HOST
+  container: 
+    image: rda/netcdf_subset #The container image name to use and container registry to use (Docker Hub is the default)
+    port: 8888 #The container port to expose
+    memory: 4 # The amount of memory (G) to allocate for the image
+    cpu: 1 # The number of CPUs to allocate for the image
+  
