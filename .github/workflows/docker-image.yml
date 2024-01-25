@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag netcdf-subset:$(date +%s)
+
+    - name: Log in to Harbor
+      run: docker login -u ${{ secrets.HARBOR_USERNAME }} -p ${{ secrets.HARBOR_PASSWORD }} hub.k8s.ucar.edu
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        run: docker tag netcdf_subset hub.k8s.ucar.edu/rda/netcdf_subset
+      
+      - name: push to registery 
+        run: docker push hub.k8s.ucar.edu/rda/netcdf_subset
