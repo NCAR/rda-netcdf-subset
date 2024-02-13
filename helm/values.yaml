@@ -10,9 +10,9 @@ webapp:
     fqdn: subset.k8s.ucar.edu #FQDN
     #The TLS secretName should be unique to the FQDN as it is used to deploy a TLS certificate for that specific FQDN
     #In the example below replace #HOST with the application name for a unique incommon issued certificate
-    secretName: incommon-cert-#HOST
+    secretName: incommon-cert-netcdf-subset
   container: 
-    image: rda/netcdf_subset #The container image name to use and container registry to use (Docker Hub is the default)
+    image: hub.k8s.ucar.edu/rda/netcdf_subset:version2024Md #The container image name to use and container registry to use (Docker Hub is the default)
     port: 8888 #The container port to expose
     memory: 4 # The amount of memory (G) to allocate for the image
     cpu: 1 # The number of CPUs to allocate for the image
