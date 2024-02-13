@@ -16,4 +16,9 @@ helm:
     port: 8888 #The container port to expose
     memory: 4 # The amount of memory (G) to allocate for the image
     cpu: 1 # The number of CPUs to allocate for the image
+  volume1:
+    name: rda-collections
+    server: gladedm1.ucar.edu
+    path: /gpfs/csfs1/collections/rda
+    readOnly: true
   
