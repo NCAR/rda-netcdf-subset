@@ -13,13 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag netcdf-subset:$(date +%s)
-    - name: Log in to Harbor
-      run: docker login -u ${{ secrets.HARBOR_USERNAME }} -p ${{ secrets.HARBOR_PASSWORD }} hub.k8s.ucar.edu  
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      run: docker tag netcdf_subset hub.k8s.ucar.edu/rda/netcdf_subset 
-    - name: push to registery 
-      run: docker push hub.k8s.ucar.edu/rda/netcdf_subset
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          # Provide the current directory as build context 
+          context: .
+          # Specify where the Dockerfile is located in relation to the repo base path
+          file: Dockerfile
+          # Enable the push to docker hub
+          push: false
+          # Provide the tags to apply to the image, this example uses the latest image tag 
+          tags: |
+            rda/netcdf-subset:${{ steps.date.outputs.date }}
