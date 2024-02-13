@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+      - name: Get current date - Year-Month-Day
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
       - name: Build Docker image
         uses: docker/build-push-action@v4
         with:
