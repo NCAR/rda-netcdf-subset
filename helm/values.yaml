@@ -1,5 +1,5 @@
 helm:
-  name: netcdf_subset
+  name: netcdf-subset
   group: rda
   path: / 
   autoscale:
