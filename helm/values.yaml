@@ -1,4 +1,4 @@
-webapp:
+helm:
   name: netcdf_subset
   group: rda
   path: / 
