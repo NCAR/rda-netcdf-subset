@@ -13,5 +13,6 @@ ENV PATH="${PATH}:/data/work/"
 
 RUN chmod 755 /data/work/dsrqst_netcdf_commandlist.py
 
-ENTRYPOINT ["dsrqst_netcdf_commandlist.py"]
-CMD ["-h"]
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
