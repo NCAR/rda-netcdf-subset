@@ -16,11 +16,11 @@ spec:
         app: {{ .Values.helm.name }}
     spec:
       volumes:
-        - name: {{ .Values.webapp.volume1.name }}
+        - name: {{ .Values.helm.volume1.name }}
           nfs:
-            server: {{ .Values.webapp.volume1.server }}
-            path: {{ .Values.webapp.volume1.path }}
-            readOnly: {{ .Values.webapp.volume1.ro }}
+            server: {{ .Values.helm.volume1.server }}
+            path: {{ .Values.helm.volume1.path }}
+            readOnly: {{ .Values.helm.volume1.ro }}
       containers:
       - name: {{ .Values.helm.name }}
         image: {{ .Values.helm.container.image }}
@@ -32,4 +32,4 @@ spec:
         - containerPort: {{ .Values.helm.container.port }}
         volumeMounts:
         - mountPath: /gpfs/csfs1/collections/rda
-          name: {{ .Values.webapp.volume1.name }}
+          name: {{ .Values.helm.volume1.name }}
