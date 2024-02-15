@@ -19,6 +19,6 @@ helm:
   volume1:
     name: rda-collections
     server: gladedm1.ucar.edu
-    path: /gpfs/csfs1/collections/rda
+    path: /gpfs/fs1/collections
     readOnly: true
   

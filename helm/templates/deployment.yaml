@@ -31,5 +31,5 @@ spec:
         ports:
         - containerPort: {{ .Values.helm.container.port }}
         volumeMounts:
-        - mountPath: /gpfs/csfs1/collections/rda
+        - mountPath: /gpfs/csfs1/collections
           name: {{ .Values.helm.volume1.name }}
