@@ -1,0 +1,20 @@
+replicaCount: 1
+
+webapp:
+  name: netcdf-subset-test
+  group: netcdf-subset-test
+  path: /
+  tls:
+    fqdn: subset-test.k8s.ucar.edu
+    secretName: incommon-cert-netcdf-subset-test
+  container: 
+    image: hub.k8s.ucar.edu/ncote/netcdf_test:2024-2-15
+    port: 8000
+    memory: 4G
+    cpu: 1 
+  volume1:
+    name: rda-collections
+    server: gladedm1.ucar.edu
+    path: /gpfs/fs1/collections
+    readOnly: true
+  
