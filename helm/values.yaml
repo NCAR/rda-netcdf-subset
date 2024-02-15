@@ -12,7 +12,7 @@ helm:
     #In the example below replace #HOST with the application name for a unique incommon issued certificate
     secretName: incommon-cert-netcdf-subset-test
   container: 
-    image: hub.k8s.ucar.edu/ncote/netcdf_test:2024-2-15 #The container image name to use and container registry to use (Docker Hub is the default)
+    image: hub.k8s.ucar.edu/docker/cislcloudpilot/docs:2024-02-15.22 #The container image name to use and container registry to use (Docker Hub is the default)
     port: 8888 #The container port to expose
     memory: 4 # The amount of memory (G) to allocate for the image
     cpu: 1 # The number of CPUs to allocate for the image
