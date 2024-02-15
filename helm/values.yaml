@@ -1,7 +1,7 @@
 helm:
   name: netcdf-subset-test
   group: rda-test
-  path: / 
+  path: /
   autoscale:
     minReplicaCount: 1 #Minimum number of replicas to run for the deployment
     maxReplicaCount: 3 #Maximum number of replicas to run for the deployment
