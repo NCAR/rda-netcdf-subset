@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y gcc libc-dev gfortran g++ libhdf5-seria
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY netcdf_subset/* .
+COPY netcdf_subset/* /data/work/
 
 ENV PATH="${PATH}:/data/work/"
 

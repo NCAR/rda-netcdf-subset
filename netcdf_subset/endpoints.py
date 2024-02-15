@@ -3,6 +3,13 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/hello")
+def hello():
+    return {"message": "hello"}
+
+'''
+@router.get("/netcdf_subset")
 def netcdf_subset():
-    return {"message": "hi"}
+    data = dsrqst_netcdf_commandlist()
+    return data
+'''
