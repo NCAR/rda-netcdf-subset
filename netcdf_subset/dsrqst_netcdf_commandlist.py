@@ -134,7 +134,7 @@ def separate_var(var):
     return var
 
 
-def subset(request_idx, request_dir=None, use_dask=True):
+def subset(request_idx, request_dir=None, use_partitions=False):
     """Given a request index, subsets files matching rinfo
 
     Args:
@@ -166,14 +166,14 @@ def subset(request_idx, request_dir=None, use_dask=True):
     check_csv_params(rinfo)
 
     # Get tindex for each webfile;
-    if not use_dask:
+    if use_partitions:
         partition_processing(rinfo, dsid, request_dir, request_idx)
     else:
         dask_processing(rinfo, dsid, request_dir, request_idx)
 
 
 def partition_processing(rinfo, dsid, request_dir, request_idx, command):
-    print('ehere')
+    logging.info(f'starting partition processing for {request_idx}')
     # define tables
     naked_dsnum = ''.join(common.add_ds(rinfo['dsnum']).split('.'))
     grid_table = naked_dsnum + '_grids2'
@@ -246,6 +246,7 @@ def dask_processing(rinfo,dsid, request_dir, request_idx):
     naked_dsnum = ''.join(common.add_ds(rinfo['dsnum']).split('.'))
     grid_table = naked_dsnum + '_grids2'
     web_table = naked_dsnum + '_webfiles2'
+
 
     lazy_results = []
     total_file_size = 0
@@ -322,12 +323,13 @@ def parse_args(args):
     parser = argparse.ArgumentParser(
                     prog='dsrqst_netcdf_commandlist',
                     description='Subsets netcdf files from the rda given an `rinfo string and outdir')
-    parser.add_argument('rindex', help = '6 digit dsrqst rindex')
-    parser.add_argument('outdir', help = 'Location where subsetted files should be output')
+    parser.add_argument('rindex', help='6 digit dsrqst rindex')
+    parser.add_argument('outdir', help='Location where subsetted files should be output', nargs='?', default='./')
     parser.add_argument('-ld','--logdir', help = "Change where log file is stored")
     parser.add_argument('-ll','--loglevel',
             help = "log level for this run. May be DEBUG, INFO, WARNING, ERROR")
-    parser.add_argument('-ud','--use_dask', action='store_true', help="Use dask for multiprocessing")
+    parser.add_argument('-up','--use_partitions', action='store_true', help="Use dask for multiprocessing")
+    parser.add_argument('-s', '--summary', help='returns a summary of the rindex', action='store_true')
     args = parser.parse_args()
     return args
 
@@ -336,7 +338,7 @@ def main():
     if len(sys.argv) == 1:
         logging.basicConfig(**log_kwargs)
         logging.warning("Not enough arguments")
-        exit(1)
+        exit(0)
     args = parse_args(sys.argv[1:])
     if args.loglevel is not None:
         if args.loglevel not in logging.getLevelNamesMapping():
@@ -350,13 +352,16 @@ def main():
             log_kwargs['filename'] = os.path.join(args.log_dir, "log.log"),
         except FileNotFoundError:
             print(f'Directory, {args.logdir}, does not exist. Using {LOG_DIR}.')
+    if args.summary:
+        print(f'Request Index is {args.rindex}')
+        exit(1)
 
     log_name = f'dsrqst_{args.rindex}.log'
     log_kwargs['filename'] = os.path.join(LOG_DIR, log_name)
     logging.basicConfig(**log_kwargs)
     logging.debug(f'Parsed args sucessfully. args: {args}')
 
-    subset(args.rindex, args.outdir, use_dask=args.use_dask)
+    subset(args.rindex, args.outdir, use_partitions=args.use_partitions)
 
 if __name__ == '__main__':
     """Calls subset if from command line"""
