@@ -8,13 +8,12 @@ webapp:
     fqdn: subset-test.k8s.ucar.edu
     secretName: incommon-cert-netcdf-subset-test
   container: 
-    image: hub.k8s.ucar.edu/ncote/netcdf_test:2024-2-15
+    image: hub.k8s.ucar.edu/ncote/netcdf_test:2024-02-29
     port: 8000
     memory: 4G
     cpu: 1 
   volume1:
-    name: rda-collections
+    name: campaign
     server: gladedm1.ucar.edu
-    path: /gpfs/fs1/collections
+    path: /gpfs/csfs1
     readOnly: true
-  

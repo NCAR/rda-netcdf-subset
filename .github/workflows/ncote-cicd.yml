@@ -1,0 +1,29 @@
+name: ncote netcdf-subset CICD
+
+on:
+  push:
+    branches: [ "ncote-dev" ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Get current date - Year-Month-Day.Hour
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d.%H')" >> $GITHUB_OUTPUT
+      - name: Build Podman image
+        run: |
+          podman build -t hub.k8s.ucar.edu/ncote/netcdf_test:${{ steps.date.outputs.date }} . --no-cache --format=docker
+      - name: Login to Harbor
+        run: podman login hub.k8s.ucar.edu -u ncote -p ${{ secrets.HARBOR_LOGIN  }}
+      - name: Push image to Harbor
+        run: podman push hub.k8s.ucar.edu/ncote/netcdf_test:${{ steps.date.outputs.date }}
+      - name: Update Helm values.yaml
+        run: | 
+          sed -i "/netcdf_subset/ c\    image: hub.k8s.ucar.edu/ncote/netcdf_test:${{ steps.date.outputs.date }}" netcdf-helm-chart/values.yaml
+      - name: Update Helm Chart.yaml
+        run: |
+          sed -i "/appVersion:/ c\appVersion: ${{ steps.date.outputs.date }}" netcdf-helm-chart/Chart.yaml
+

@@ -20,14 +20,14 @@ import dsrqst_netcdf_subset
 sys.path.append('/gpfs/u/home/rdadata/lib/python')
 import MySubset
 
-LOG_DIR = "/gpfs/csfs1/collections/rda/work/rpconroy/logs/" # Default log file. It should be reassigned
+LOG_DIR = "/glade/campaign/collections/rda/work/rpconroy/logs/" # Default log file. It should be reassigned
 log_kwargs = {
         'filename' : os.path.join(LOG_DIR, "out.log"),
         'format' : '%(levelname)s:%(asctime)s:%(message)s',
         'datefmt' : '%Y-%m-%d %H:%M:%S',
         'level' : logging.DEBUG  # Can be DEBUG, INFO, WARNING, ERROR, CRITICAL
         }
-default_subset_dir = "/gpfs/csfs1/collections/rda/transfer/dsrqst/"
+default_subset_dir = "/glade/campaign/collections/rda/transfer/dsrqst/"
 
 def end_subset(message="Ending Program", errnum=1):
     """End processing and optionally provide error message and error number."""
@@ -123,7 +123,7 @@ def rinfo_error_check(rinfo):
 
 def get_full_filename(dsid, filename):
     """Get the full location of data file."""
-    datadir = '/gpfs/csfs1/collections/rda/data/'
+    datadir = '/glade/campaign/collections/rda/data/'
     return datadir + dsid + '/' + filename
 
 def separate_var(var):
@@ -193,7 +193,7 @@ def partition_processing(rinfo, dsid, request_dir, request_idx, command):
                 in_filename = common.get_webid_from_code(web_table , webid_code)
                 full_in_filename = get_full_filename(common.add_ds(rinfo['dsnum']), in_filename)
 
-                total_file_size += os.path.getsize(f'/gpfs/csfs1/collections/rda/data/{dsid}/{in_filename}')
+                total_file_size += os.path.getsize(f'/glade/campaign/collections/rda/data/{dsid}/{in_filename}')
 
                 if 'tindex' in rinfo and not common.wfile_in_tindex(dsid,in_filename,rinfo['tindex'][0]):
                     continue
@@ -261,7 +261,7 @@ def dask_processing(rinfo,dsid, request_dir, request_idx):
                 in_filename = common.get_webid_from_code(web_table , webid_code)
                 full_in_filename = get_full_filename(common.add_ds(rinfo['dsnum']), in_filename)
 
-                total_file_size += os.path.getsize(f'/gpfs/csfs1/collections/rda/data/{dsid}/{in_filename}')
+                total_file_size += os.path.getsize(f'/glade/campaign/collections/rda/data/{dsid}/{in_filename}')
 
                 if 'tindex' in rinfo and not common.wfile_in_tindex(dsid,in_filename,rinfo['tindex'][0]):
                     continue

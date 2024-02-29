@@ -15,14 +15,14 @@ import xarray # takes a few seconds to load. Improve by only importing what you 
 import logging
 import numpy
 
-LOG_DIR = "/gpfs/csfs1/collections/rda/work/rpconroy/logs/" # Default log file. It should be reassigned
+LOG_DIR = "/glade/campaign/collections/rda/work/rpconroy/logs/" # Default log file. It should be reassigned
 log_kwargs = {
         'filename' : os.path.join(LOG_DIR, "log.log"),
         'format' : '%(levelname)s:%(asctime)s:%(message)s',
         'datefmt' : '%Y-%m-%d %H:%M:%S',
         'level' : logging.DEBUG  # Can be DEBUG, INFO, WARNING, ERROR, CRITICAL
         }
-default_subset_dir = "/gpfs/csfs1/collections/rda/transfer/dsrqst/"
+default_subset_dir = "/glade/campaign/collections/rda/transfer/dsrqst/"
 
 def end_subset(message="Ending Program", errnum=1):
     """End processing and optionally provide error message and error number."""
