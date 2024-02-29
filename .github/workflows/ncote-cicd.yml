@@ -24,7 +24,7 @@ jobs:
         run: podman push hub.k8s.ucar.edu/rda/netcdf_test:${{ steps.date.outputs.date }}
       - name: Update Helm values.yaml
         run: | 
-          sed -i "/netcdf_subset/ c\    image: hub.k8s.ucar.edu/rda/netcdf_test:${{ steps.date.outputs.date }}" netcdf-helm-chart/values.yaml
+          sed -i "/netcdf_test/ c\    image: hub.k8s.ucar.edu/rda/netcdf_test:${{ steps.date.outputs.date }}" netcdf-helm-chart/values.yaml
       - name: Update Helm Chart.yaml
         run: |
           sed -i "/appVersion:/ c\appVersion: ${{ steps.date.outputs.date }}" netcdf-helm-chart/Chart.yaml
