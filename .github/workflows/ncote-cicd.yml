@@ -10,20 +10,27 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+        with:
+          ref: ncote-dev
       - name: Get current date - Year-Month-Day.Hour
         id: date
         run: echo "date=$(date +'%Y-%m-%d.%H')" >> $GITHUB_OUTPUT
       - name: Build Podman image
         run: |
-          podman build -t hub.k8s.ucar.edu/ncote/netcdf_test:${{ steps.date.outputs.date }} . --no-cache --format=docker
+          podman build -t hub.k8s.ucar.edu/rda/netcdf_test:${{ steps.date.outputs.date }} . --no-cache --format=docker
       - name: Login to Harbor
-        run: podman login hub.k8s.ucar.edu -u ncote -p ${{ secrets.HARBOR_LOGIN  }}
+        run: podman login hub.k8s.ucar.edu -u ${{ secrets.HARBOR_USERNAME  }} -p ${{ secrets.HARBOR_PASSWORD  }}
       - name: Push image to Harbor
-        run: podman push hub.k8s.ucar.edu/ncote/netcdf_test:${{ steps.date.outputs.date }}
+        run: podman push hub.k8s.ucar.edu/rda/netcdf_test:${{ steps.date.outputs.date }}
       - name: Update Helm values.yaml
         run: | 
-          sed -i "/netcdf_subset/ c\    image: hub.k8s.ucar.edu/ncote/netcdf_test:${{ steps.date.outputs.date }}" netcdf-helm-chart/values.yaml
+          sed -i "/netcdf_subset/ c\    image: hub.k8s.ucar.edu/rda/netcdf_test:${{ steps.date.outputs.date }}" netcdf-helm-chart/values.yaml
       - name: Update Helm Chart.yaml
         run: |
           sed -i "/appVersion:/ c\appVersion: ${{ steps.date.outputs.date }}" netcdf-helm-chart/Chart.yaml
-
+      - name: Commit changes
+        run: |
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --global user.name "$GITHUB_ACTOR"
+          git commit -a -m "Update Helm chart via GH Actions"
+          git push
