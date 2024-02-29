@@ -8,7 +8,7 @@ webapp:
     fqdn: subset-test.k8s.ucar.edu
     secretName: incommon-cert-netcdf-subset-test
   container: 
-    image: hub.k8s.ucar.edu/ncote/netcdf_test:2024-02-29
+    image: hub.k8s.ucar.edu/rda/netcdf_test:2024-02-29.23
     port: 8000
     memory: 4G
     cpu: 1 
